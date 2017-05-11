@@ -40,3 +40,41 @@ str(islands)
 islands[c("Asia", "Africa", "Antarctica")]
 names(islands)[1:9]
 names(sort(islands, decreasing=TRUE)[1:6])
+
+month.days <- c(31,28,31,30,31,30,31,31,30,31,30,31)
+names(month.days) <- month.name
+month.days
+names (month.days[month.days==31])
+
+pangram <- "The quick brown fox jumps over the lazy dog"
+strsplit (pangram, " ")
+words <- (strsplit (pangram, " "))[[1]]
+unique(tolower(words))
+paste("The","quick","brown","fox")
+paste (words, collapse=" ")
+sort(letters, decreasing=TRUE)
+sort(words)
+
+
+head(state.names)
+head (state.name)
+head(substr(state.name, start=3, stop=6))
+grep("New", state.name)
+state.name[29]
+state.name[grep("New",state.name)]
+
+arrgh <- "A wolf in cheap clothing"
+gsub("cheap", "sheep's", arrgh)
+library(stringr)
+
+directions <- c("North", "East", "South","South") 
+factor(directions)
+factor(directions, levels= c("North", "East", "South", "West"), labels=c("N", "E", "S","W"))
+directions.factor <- factor(directions)
+as.character(directions.factor)
+as.numeric(directions.factor)
+
+str(state.region)
+levels(state.region)
+levels(state.region) <- c("NE", "S", "NC", "W")
+head(state.region)
