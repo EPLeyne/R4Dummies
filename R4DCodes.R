@@ -30,6 +30,8 @@ diff(baskets.of.Granny)
 
 sum(baskets.of.Granny)
 
+baskets.team <- rbind(baskets.of.Granny, baskets.of.Geraldine)
+
 x <- "Hello world!"
 is.character(x)
 nchar(x)
@@ -140,3 +142,30 @@ xlc
 #Then..
 xlc$year
 xlc$mon
+
+
+## Chapter 7 - More dimensions
+
+## Use matrix() to create a matrix with the arguments being the values and the number of columns to create.
+firstmatrix <- matrix(1:12, ncol=4)
+# You can also specify the number of row using nrow=, you don't have to do both nrow and ncol, just 1 will do.
+# The matrix created will fill by column unless speciifed in the argument
+firstmatrix <- matrix(1:12, ncol=4, byrow=TRUE)
+# You can look at the properties of the matrix in the usual fashion...
+str(firstmatrix)
+dim(firstmatrix)
+length(firstmatrix)
+
+## You can use cbind to combine data together to create matrices...
+cbind(1:3, 4:6, matrix(7:12, ncol=2))
+## In this example you are combining 2 vectors (1:3 and 4:6) with a 2x3 matrix with the values 7:12
+
+## Extracting data from a matrix
+## To extract from a certain row and column use the []
+firstmatrix [1:2, 2:3]
+# Note that while we are taking rows 1 and 2 and column 2 and 3, the indicies of the new matrix do not match the indices of the old matrix.
+## To get whole rows or columns from a matrix you simply don't specify the other dimension...
+firstmatrix [2:3,]
+## To drop a complete row and/or column use the -ve...
+firstmatrix [-2,-3]
+# However this can only be used to drop whole rows and columns
