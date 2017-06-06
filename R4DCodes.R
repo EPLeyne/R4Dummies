@@ -169,3 +169,24 @@ firstmatrix [2:3,]
 ## To drop a complete row and/or column use the -ve...
 firstmatrix [-2,-3]
 # However this can only be used to drop whole rows and columns
+## To drop a single entry is a little more complicated and you need to treat it like a vector....
+# Create an object returning the numer of rows
+nr <- nrow(firstmatrix)
+# Then create a variable to identify the element we want to remove (in this case the second element of the third column)
+id <- nr*2+2   #ie. (3+3) (number of rows) + 2 (the second element), the 8th element in the vector
+# Then return the vector with that element removed
+firstmatrix[-id]
+# This can all be acheieved in one line...
+firstmatrix[-(2 * nrow(firstmatrix) + 2)]
+## To drop multiple columns or rows is the same as dropping individual rows or columns but using the concanate function....
+firstmatrix[-c(1,3), ,drop=FALSE]
+# Without the 'drop=FALSE' command R will return the simplest result (ie. a vector). The 'drop=FALSE' command instructs R to not drop the matrix.
+# If the expected result is more than 1 row or column then the 'drop=FALSE' command is unnessesary as R will keep the matrix structure.
+
+## Replacing values in a matrix.
+# To replace a single value, simply select the object you want to change and what you will change it with.
+firstmatrix [3,2] <- 4  #This replaces the object R3C2 with a 4
+firstmatrix [2, ] <- c(1,3) #Replaces the objects in R2 with 1,3,1,3 (remembering thet R will continue to fill with the objects given until finished)
+# You can even replace a subset of values with another matrix or vector...
+firstmatrix[1:2, 3:4] <- c(8,4,2,1)  #This creates a subset of R1-R2 _AND_ C3-C4 (ie 1,3, 2,3, 1,4, 2,4) and replaces it with a vector of 8,4,2,1
+# R reads the vector column-wise by default, so in this example the new vector will be added to the matrix by column. To enter it by row you first have to reconstruct the matrix with the argument byrows=TRUE, then add the new vector.
