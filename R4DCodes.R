@@ -190,3 +190,20 @@ firstmatrix [2, ] <- c(1,3) #Replaces the objects in R2 with 1,3,1,3 (rememberin
 # You can even replace a subset of values with another matrix or vector...
 firstmatrix[1:2, 3:4] <- c(8,4,2,1)  #This creates a subset of R1-R2 _AND_ C3-C4 (ie 1,3, 2,3, 1,4, 2,4) and replaces it with a vector of 8,4,2,1
 # R reads the vector column-wise by default, so in this example the new vector will be added to the matrix by column. To enter it by row you first have to reconstruct the matrix with the argument byrows=TRUE, then add the new vector.
+
+## Naming the Rows and Columns of a Matrix.
+# The rbind() function creates the row or column names from the two vectors. In an existing matrix you can use rownames() and colnames()
+rownames(baskets.team) <- c('Granny', "Geraldine")
+colnames(baskets.team) <- c('1st','2nd','3rd','4th','5th','6th')
+# To make a change to a specific name....
+colnames(baskets.team)[3] <- 'Third'
+# To remove column or row names set them to NULL
+colnames(baskets.team) <- NULL
+# To see the names of the Rows and Columns of a matrix use dimnames()
+dimnnames(baskets.team)
+# Like before you can extract rows or columns, but you can use the names of the rows and columns to do it.
+baskets.team [ , c("2nd","5th")]
+baskets.team ["Granny", ]
+# In this case you will notice that the Row name is gone as it is now a vector named "Granny"
+
+## Calculating with Matrices
