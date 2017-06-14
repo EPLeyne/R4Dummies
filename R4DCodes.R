@@ -207,3 +207,83 @@ baskets.team ["Granny", ]
 # In this case you will notice that the Row name is gone as it is now a vector named "Granny"
 
 ## Calculating with Matrices
+# You can do simple calculations using the +,-,* and / symbols.
+firstmatrix + 4
+# Adding different values to different columns means you need to create a matrix of the values you want to add..
+secondmatrix <- matrix(1:3, nrow=3, ncol=4)
+firstmatrix + secondmatrix
+# This creates the matrix to add 1 to the first row, 2 to the second row and so on. You have to make the matricies you are adding together to match...
+firstmatrix + secondmatrix[ ,1:3]   # This will return an error as you are trying to add matricies that don't fit one another
+# When adding a vector to a matrix you won't get that error as R will simply recycle that vector through the matrix.
+firstmatrix + 1:3
+# By default R fills by column, so firstmatrix + 1:3 returns the same as firstmatrix + secondmatrix.
+
+# To calculate the sums and means of rows and columns use...
+rowSums(baskets.team)
+rowMeans(baskets.team)
+colSums(baskets.team)
+colMeans(baskets.team)
+
+# To transpose a matrix...
+t(firstmatrix)
+# This can be done to a vector too, turning it into am matrix...
+t(1:10)
+# While this may seem trivial, if you are transposing a row from a matrix it will return a row in a matrix instead of a column
+t(firstmatrix[2,])
+
+## ARRAYS
+# Vectors and matricies are types of a type of object called arrays. Arrays can be thought of as types of vectors with extra dimensions attribute.
+# Arrays wih more than 2 dimensions are rare but are useful when representing a time series in 2 dimensions or using multi-way tables.
+# Create matricies or arrays using the matrix() or array() functions, and use dim() to change the dimensions.
+my.array <- array (1:24, dim=c(3,4,2))
+# This creates an array of the numbers 1 to 24 with 3 rows, 4 columns and 2 tables (the three dimensions)
+# Notice that the dim() function enters the number of rows first but the data is filled by column first.
+# Another (easier) way of doing this is to change the dimensions of an existing vector. This is especially useful if you are working with an existing vector and want to create an array.
+my.vector <- 1:24
+dim(my.vector) <- c(3,4,2)
+# This is identical to my.array, which can be checked...
+identical (my.array,my.vector)
+# To extract data from an array is the same as from a matrix but with the need to add in the dimension factor.
+# For a particular data point..
+my.array [2,3,1]
+# For a column...
+my.array [ ,3,2, drop=FALSE]
+# If you don't include the drop=FALSE R will return the easiest result (a vector). By including the drop=FALSE we are telling R to not drop the structure we want.
+# The same applies if you are returning 2 rows, without the drop=FALSE R will return a matrix and the rows will be in columns.
+# ie. compare..
+my.array [2,,] # returns the second rows of the 2 tables as 2 columns in the same matrix
+# with..
+my.array [2,,,drop=FALSE] # also returns the second rows of the 2 tables, but maintains the structure.
+
+## Combining different types of values in a Data Frame
+# Vectors, Matricies and Arrays all have the same type of data, which is rare.
+# The data structure that combines different types of data are called 'DATA FRAMES'
+## Creating Data Frames from matricies
+# Use the as.data.frame function
+baskets.df <- as.data.frame(t(baskets.team))  # We are treating Grannys and Geraldine's baskets as separate variables, hence the transpose. See note below.
+# In data frames each variable is in a column, so in this example we need to transpose the data. If the matrix already has the variables in columns then there is no need to transpose.
+# This method of creating a data frames does not allow data frames with different types of values. If you combine numeric and character data then all vaules will be converted into character.
+# Check the structure
+str(baskets.df)  # Shows that there are 6 observations of 2 variables ('Granny,'Geraldine')
+str(baskets.team)  # The original matrix showed there were 12 observations in a 6:2 matrix.
+# As data frames are in the structure of variables in columns, we can use nrow() to get the number of observations.
+nrow(baskets.df)
+# And the number of variables can be ncol() or length()
+length(baskets.df)
+## Creating data frames from scratch
+# Unlike the first method, this method allows different types of values to be in a data frame.
+# Create data frames from vectors.
+employee <- c('John Doe', 'Peter Gynn','Jolie Hope')  #Character vector
+salary <- c(21000,23400,26800) # Numeric vector
+startdate <- as.Date(c('2010-11-1','2008-3-25','2007-3-14')) # Date vector
+# Use data.frame function to create a data frame from those three vectors
+employ.data <- data.frame(employee, salary, startdate)
+# R will create the data frame with the variables (and column names) with the names of the vectors.
+# Check the structure
+str(employ.data)
+# When you look at the structure you will notice that the employee vector has been changed from Character to Factor. This is the default and can be avoided like so.....
+employ.data <- data.frame(employee, salary, startdate, stringsAsFactors = FALSE)   #Now the employee data is kept as character
+# In data frames the variables always need a name. You can access the names using colnames() or names()...
+names(employ.data)
+# To change a varible name...
+names(employ.data) [3] <- 'firstday'
