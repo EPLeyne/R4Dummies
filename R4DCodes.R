@@ -1,46 +1,48 @@
+## Chapter 4 (?)
+# Creating a vector
 baskets.of.Granny <- c(12,4,5,6,9,3)
-
 baskets.of.Geraldine <- c(5,4,2,4,12,9)
-
+# New vector of those values that Granny is better than Geraldine (TRUE/FALSE result)
 the.best <- baskets.of.Granny > baskets.of.Geraldine
-
+# which() lists which entries are TRUE
 which(the.best)
-
+# Use [] to extract specific entries from the vectors 
 baskets.of.Granny[the.best]
-
-min.baskets<-baskets.of.Granny==min(baskets.of.Granny)
-
+# Using the '==' to create vectors 'equal to'
+# max() returns the highest value from a vector, min() returns the minimum (TRUE/FALSE)
+min.baskets <- baskets.of.Granny==min(baskets.of.Granny)
 max.baskets <- baskets.of.Granny==max(baskets.of.Granny)
 
-min.baskets
-
-max.baskets
-
 min.baskets | max.baskets
-
+# sum() of a TRUE/FALSE vector returns how many times the result is TRUE
 sum(the.best)
-
+# any() of a TRUE/FALSE vector returns if there are any TRUE results
 any(the.best)
-
+# all() of a TRUE/FALSE vector returns if all the results are TRUE
 all(the.best)
-
+# cumsum() returns the cumulative sum of a vector
 cumsum(baskets.of.Granny)
 
 diff(baskets.of.Granny)
-
+# sum() returns the total sum of a vector
 sum(baskets.of.Granny)
-
 baskets.team <- rbind(baskets.of.Granny, baskets.of.Geraldine)
 
+## Character vectors
 x <- "Hello world!"
+# To check it is a character vector and the number of characters
 is.character(x)
 nchar(x)
-
+# Another way to enter this is belw, but this changes the nchar() result
 x<-c("Hello","world!")
-
+# islands is an internal data set in R to practice
+# To look at the structure of a dataset use str()
 str(islands)
+# Use [] to extract data from the vectors
 islands[c("Asia", "Africa", "Antarctica")]
+# names() returns the names only and can be used in conjunction with []
 names(islands)[1:9]
+# Use sort() to sort by a numeric vector
 names(sort(islands, decreasing=TRUE)[1:6])
 
 month.days <- c(31,28,31,30,31,30,31,31,30,31,30,31)
