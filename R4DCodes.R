@@ -289,3 +289,14 @@ employ.data <- data.frame(employee, salary, startdate, stringsAsFactors = FALSE)
 names(employ.data)
 # To change a varible name...
 names(employ.data) [3] <- 'firstday'
+
+## Extracting data from a Data Frame
+# You can extract data from a data frame by treating it like a matrix....
+baskets.df['3rd', 'Geraldine']
+baskets.df[ ,1]
+# Or to return a single variable's results then you can use the '$' command. With multiple variables you still need to use the [] command.
+baskets.df$Granny
+# These return vectors. To return a data frame then you need the drop=FALSE argument
+str(baskets.df[ ,1,drop=FALSE])
+
+## Adding data to a Data Frame
