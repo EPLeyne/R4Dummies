@@ -300,3 +300,87 @@ baskets.df$Granny
 str(baskets.df[ ,1,drop=FALSE])
 
 ## Adding data to a Data Frame
+# Single Observation using rbind
+result <- rbind(baskets.df, c(7,4)) #The multiple arguments added is fine so loing as they ar compatable with the data frame
+# To give the new row a name....
+baskets.df <- rbind(baskets.df, '7th' = c(7,4))
+# Adding a series of new obersvations using rbind()
+# To add multiple new observations to a data frame then you need to know the exact names of the variables, including the case.
+# First create a new data frame that you will add to the existing one...
+new.baskets <- data.frame(Granny=c(3,8),Geraldine=c(9,4))
+# Then add the row names (optional, but kind of nessesary if you are adding it to existing data frames.)
+rownames(new.baskets) <- c('8th','9th')
+# You can also add or change the column names the same way using colnames(), but as the column names must match exactly the existing data frame, this is a much better way to do it....
+colnames(new.baskets) <- names(baskets.df)
+# Finally, to add the new data frame to the existing data frame...
+baskets.df <- rbind(baskets.df, new.baskets)
+
+## Adding variables to a data frame
+# To add a single variable...
+baskets.of.Gabrielle <- c(11,5,6,7,3,12,4,5,9)
+baskets.df$Gabrielle <- baskets.of.Gabrielle
+# Addidng multiple variables using cbind()
+# Create a new data frame with the new variables
+new.df <- data.frame(Gertrude = c(3,5,2,1,NA,3,1,1,4),Guinevere = c(6,9,7,3,3,6,2,10,6))
+# Although the row names are different in the new data frame, R will ignore this and use the row names from the first data frame entered in the cbind() argument\
+baskets.df <- (cbind(baskets.df, new.df))
+
+## Creating different objects in a list
+# Lists are general and flexible types of objects in R. They can be useful to group different types of objects or to carry out operations on a complete set of different objects.
+# To create a list of unnamed objects use the list() function
+baskets.list <- list(baskets.team, "2016-2017") #This creates a list two elements, the matrix of results and the season.
+# The numbers between the [[]] of the results indicates the number of that object in the list.
+# To make it a named list instead you indicate the names in the list() function.
+baskets.nlist <- list (scores = baskets.team, season = '2016-2017')
+## Data frames are just fancy lists, so all the instructions that can be used on lists can laso be used on data frames.
+# Accessing elements in a list.
+# Use [[]] to access an element...
+baskets.list [[1]]
+baskets.nlist [['scores']]
+# You cannot use logical vectors of negative numbers (to exclude elements) when using [[]]
+# Using [] to extract objects form a list is more flexible and can use logical vectors or negative numbers.
+baskets.list [-1]
+baskets.nlist[names(baskets.nlist)=='season']$season
+baskets.nlist['season']
+## Changing elements in a list
+# Changing the value of an element is fairly easy using [[]], just select the data you want to change and what you want to replace it with.. The folowing scripts will all change the same things....
+baskets.nlist[[1]] <- baskets.df
+baskets.nlist[['scores']] <- baskets.df
+baskets.nlist$scores <- baskets.df
+# Using [] is a bit different but you have to assign a list to replace the existing object in the list. To do the same as above you would need to do.....
+baskets.nlist [1] <- list(baskets.df)
+# Using [] is a bit of an extra step but it is amore flexible as it allows you to change more than one objects at once...
+baskets.list[1:2] <- list(baskets.df, '2012-2013')
+# Removing elements is just as easy as adding, just assign the objects as NULL
+baskets.nlist[[1]] <- NULL
+baskets.nlist[['scores']] <- NULL
+baskets.nlist$scores <- NULL
+# Adding extra elements using indices similar to data frames, All these will do the same thing....
+baskets.nlist$players <- c('Granny','Geraldine')
+baskets.nlist[['players']] <- c('Granny','Geraldine')
+baskets.nlist['players'] <- list(c('Granny','Geraldine'))
+# Or to the unnamed list..
+baskets.list[[3]] <- c('Granny','Geraldine')
+baskets.list[3] <- list(c('Granny','Geraldine')) #This requires you to know exactly the number of elements in a list. If the list already had 3 elements whis command would overwrite it.
+
+
+## Chapter 8 - Putting the Fun in Functions
+# Creating and using functions
+# Create a function by sticking scripts together... eg. below expressing decimal numbers as percentages
+####### Do the following in a new script file #####
+x <- c(0.458, 1.6653, 0.83112)
+percent <- round(x*100, digits=1) #This creates the percentage and rounds it to the 1st decimal place
+result <- paste(percent, "%", sep="")
+print(result)
+# Save the script with a new file name (eg. 'pastePercent.R')
+# Then you can recall this script in the command console of a different script file....
+source('pastePercent.R')
+# This script is fine if you just want those 3 numbers all the time, but to make it a function where we can plug in different data then we need to make it a funtion...
+addPercent <- function(x){    #the function() tells R that what follows is a function. What is in the parenthesis the arguement list of the function, in this case only 1 argument (x)
+  percent <- round(x*100, digits=1)  # The {} contains the body of the function, what we want to do to the argument list 
+  result <- paste(percent, "%", sep="")
+  return(result)  # 
+}
+# Run this script and then add new numbers to run
+new.numbers <- c(0.8223, 0.02487, 1.62, 0.4)
+addPercent(new.numbers)
