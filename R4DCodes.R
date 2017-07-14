@@ -376,11 +376,13 @@ print(result)
 # Then you can recall this script in the command console of a different script file....
 source('pastePercent.R')
 # This script is fine if you just want those 3 numbers all the time, but to make it a function where we can plug in different data then we need to make it a funtion...
+####### Do the following in a new script file #####
 addPercent <- function(x){    #the function() tells R that what follows is a function. What is in the parenthesis the arguement list of the function, in this case only 1 argument (x)
   percent <- round(x*100, digits=1)  # The {} contains the body of the function, what we want to do to the argument list 
   result <- paste(percent, "%", sep="")
   return(result)  # 
 }
 # Run this script and then add new numbers to run
+source('addPercent.R')
 new.numbers <- c(0.8223, 0.02487, 1.62, 0.4)
 addPercent(new.numbers)
