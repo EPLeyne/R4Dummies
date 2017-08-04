@@ -380,9 +380,54 @@ source('pastePercent.R')
 addPercent <- function(x){    #the function() tells R that what follows is a function. What is in the parenthesis the arguement list of the function, in this case only 1 argument (x)
   percent <- round(x*100, digits=1)  # The {} contains the body of the function, what we want to do to the argument list 
   result <- paste(percent, "%", sep="")
-  return(result)  # 
+  return(result)  
 }
 # Run this script and then add new numbers to run
 source('addPercent.R')
 new.numbers <- c(0.8223, 0.02487, 1.62, 0.4)
 addPercent(new.numbers)
+# Say you want to make percentages of different types of numbers, such as those that are fractions (as above that need to be divided by 100) or numbers that are already the correct percentage.
+percentages <- c(58.23, 120.4, 33)
+# To make them percentages we could do this...
+addPercent(percentages/100)
+# Or to make it a function that we could use for different inputs then we add a mult (multiplication) argument
+addPercent <- function(x, mult){    # We have to input by how much the numbers would be mulitplied by instead of the automatic 100
+  percent <- round(x*mult, digits=1)   # the *100 argument is replaced by what we inputted for mult
+  result <- paste(percent, "%", sep="")
+return(result)
+  }
+# So then....
+addPercent(percentages, mult=1)
+# However, you must input the mult each time you use the function in this case. It is much better to specify a default value if you are going to use that value a majority of the time.
+# So if we are using fraction data a majority of the time we set the default by using the '=' sign....
+addPercent <- function(x, mult=100){    
+  percent <- round(x*mult, digits=1)   
+  result <- paste(percent, "%", sep="")
+  return(result)
+}
+# Now this function will automatically return the input *100 unless we specify the mult factor.
+
+##  Dots (...)
+# Lets say we want the digits to be variable also. Currently it is set at one, but we could put that in the original argument after mult to make it changeable....
+# That is fine if you have a small function but as the function gets larger you would have to specify a lot every time you use it.
+# The solution is to use dots (...) in the original argument to change different things within the function.
+addPercent <- function(x, mult=100, ...){    
+  percent <- round(x*mult, ...)   
+  result <- paste(percent, "%", sep="")
+  return(result)
+}
+# Now the number of digits can be specified in the argument...
+addPercent(new.numbers, digits=2)
+# The function will still work without specifying the digits for the decimal places, but will return the default, in this case zero decimal places.
+addPercent(new.numbers)
+## To add different arguments into the function then you create a seperate argument and specify it in the function argument.
+# For example, round() returns a result to a specified umber of decimal places (zero by default), signif() returns a result to 4 places (ie. 1.236%, 194%, 23.57%)
+# To swap between the two we would create a seperate function....
+addPercent <- function(x, mult=100, FUN=round, ...) {   ## FUN is the new function specifying the number of numbers, and specifying round() as the default
+  percent <- FUN(x*mult, ...)   ## the round() argument has been replaced by the function 'FUN' so that we can adjust the argument
+  paste (percent, "%", sep="")
+}
+# Now the addPercent will return the reult with the round() as default, but we can specify another argument in it if we desire
+addPercent(new.numbers, FUN=signif, digits=3)   # Note that signif and round do not have () after them. With the () R would interprete it as a nested function and return an error
+
+
